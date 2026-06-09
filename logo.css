@@ -1,0 +1,19 @@
+.site-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 8px;
+    box-sizing: border-box;
+}
+.site-header .site-logo {
+    width: min(220px, 42vw);
+    max-width: 220px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+@media (max-width: 520px) {
+    .site-header {
+        padding-top: 16px;
+    }
+}
