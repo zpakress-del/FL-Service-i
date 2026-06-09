@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Currículo</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        .page {
+            width: min(1000px, 95%);
+            padding: 70px;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin-top: 0;
+            color: #b00000;
+            font-size: 30px;
+        }
+        .field {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: bold;
+        }
+        input {
+            width: 60%;
+            border: 1px solid #2a2a2a;
+            border-radius: 50px;
+            padding: 14px 16px;
+            background: #121212;
+            color: #fff;
+            font-size: 1rem;
+            margin: 20px;
+        }
+        button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 18px; 
+            border-radius: 10px;
+            border: none;
+            background: #b00000;
+            color: #fff;
+            font-size: 27px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #d84747;
+        }
+        .nav {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 1px solid #b00000;
+            text-decoration: none;
+            color: #fff;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav a:hover {
+            background: #b00000;
+            color: #121212;
+        }
+        .message {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .top-icons-box {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            background: rgba(24, 0, 0, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+            display: flex;
+            gap: 18px;
+            padding: 18px 12px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .icon-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.14);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(176, 0, 0, 0.5);
+        }
+        .icon-btn::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 70px;
+            background: rgba(24, 0, 0, 0.95);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(176, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .icon-btn:hover::after {
+            opacity: 1;
+        }
+        .icon-chat::before {
+            content: '💬';
+            font-size: 24px;
+        }
+        .icon-search::before {
+            content: '🔍';
+            font-size: 24px;
+        }
+        .icon-config::before {
+            content: '⚙️';
+            font-size: 24px;
+        }
+        .icon-profile::before {
+            content: '👤';
+            font-size: 24px;
+        }
+        .icon-back::before {
+            content: '↩️';
+            font-size: 24px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+    </style>
+    <style>
+        body {
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            font-size: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .page {
+            position: relative;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../imagem/logo.img05.png" alt="Logo">
+    </div>
+    <div class="page" id="miniPage">
+        <h1>Mini Currículo</h1>
+        <p class="message">Edite apenas seu nome, CPF e email.</p>
+        <div class="field">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
+        </div>
+        <div class="field">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00">
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com">
+        </div>
+        <button id="saveBtn">Salvar</button>
+        <div class="nav">
+            <a href="suporte.html">Voltar</a>
+            
+        </div>
+    </div>
+    <div class="top-icons-box">
+        <a href="historico-chat.html" class="icon-btn" data-label="💬 Conversas" title="Conversas - Histórico de mensagens">
+            <span class="icon-chat"></span>
+        </a>
+        <a href="curriculos.html" class="icon-btn" data-label="🔍 Pesquisar" title="Pesquisar - Buscar currículos">
+            <span class="icon-search"></span>
+        </a>
+        <a href="config.html" class="icon-btn" data-label="⚙️ Configurações" title="Configurações - Tema, privacidade">
+            <span class="icon-config"></span>
+        </a>
+        <a href="suporte.html" class="icon-btn" data-label="👤 Meu Perfil" title="Perfil - Ver meu perfil">
+            <span class="icon-profile"></span>
+        </a>
+        <a href="#" class="icon-btn" data-label="↩️ Voltar" title="Voltar - Página anterior" onclick="event.preventDefault(); history.back();">
+            <span class="icon-back"></span>
+        </a>
+    </div>
+    <script>
+        const page = document.getElementById('miniPage');
+        const user = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+        if (!user) {
+            page.innerHTML = '<h1>Login necessário</h1><p class="message">Você precisa fazer login antes de editar o mini currículo.</p><div class="nav"><a href="index.html">Voltar ao Login</a></div>';
+        } else {
+            document.getElementById('nome').value = user.nome || '';
+            document.getElementById('cpf').value = user.cpf || '';
+            document.getElementById('email').value = user.email || '';
+        }
+
+        function dedupeUsuarios(usuarios) {
+            const map = new Map();
+            usuarios.forEach(u => {
+                const chave = (u.email || '').trim().toLowerCase() || (u.cpf || '').replace(/\D/g, '');
+                if (!chave) return;
+                map.set(chave, u);
+            });
+            return Array.from(map.values());
+        }
+
+        function salvarMiniCurriculo() {
+            const nome = document.getElementById('nome').value.trim();
+            const cpf = document.getElementById('cpf').value.trim();
+            const email = document.getElementById('email').value.trim();
+            if (!nome || !cpf || !email) {
+                alert('Preencha todos os campos para salvar.');
+                return;
+            }
+            const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+            const emailAntigo = usuarioAtual.email || '';
+            const cpfAntigo = usuarioAtual.cpf || '';
+            usuarioAtual.nome = nome;
+            usuarioAtual.cpf = cpf;
+            usuarioAtual.email = email;
+            usuarioAtual.tipoPerfil = 'cliente';
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtual));
+            let usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+            let atualizado = false;
+            usuarios = usuarios.map(u => {
+                if (u.email === emailAntigo || u.cpf === cpfAntigo || u.email === email || u.cpf === cpf) {
+                    atualizado = true;
+                    return {...u, nome, cpf, email, tipoPerfil: 'cliente'};
+                }
+                return u;
+            });
+            if (!atualizado) {
+                usuarios.push(usuarioAtual);
+            }
+            usuarios = dedupeUsuarios(usuarios);
+            localStorage.setItem('usuariosVagasPF', JSON.stringify(usuarios));
+            alert('Mini currículo salvo com sucesso!');
+        }
+
+        document.getElementById('saveBtn').addEventListener('click', salvarMiniCurriculo);
+    </script>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                let estilo = document.getElementById('tema-claro-style');
+                if (!estilo) {
+                    estilo = document.createElement('style');
+                    estilo.id = 'tema-claro-style';
+                    document.head.appendChild(estilo);
+                }
+                estilo.textContent = `
+                    body { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; color: #000000 !important; }
+                    .page { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; border-color: #90caf9 !important; }
+                    h1 { color: #000000 !important; }
+                    label { color: #000000 !important; }
+                    input { background: #ffffff !important; color: #000000 !important; border-color: #90caf9 !important; }
+                    button { background: #2196f3 !important; color: #ffffff !important; }
+                    button:hover { background: #1976d2 !important; }
+                    .nav a { color: #000000 !important; border-color: #000000 !important; }
+                    .nav a:hover { background: #2196f3 !important; color: #ffffff !important; }
+                    .icon-btn { background: rgba(255, 255, 255, 0.98) !important; border-color: #90caf9 !important; }
+                    .icon-btn:hover { background: rgba(100, 181, 246, 0.3) !important; box-shadow: 0 0 20px rgba(33, 150, 243, 0.4) !important; }
+                    .top-icons-box { background: rgba(66, 165, 245, 0.15) !important; box-shadow: 0 0 25px rgba(33, 150, 243, 0.25) !important; border: 1px solid #90caf9 !important; }
+                `;
+            } else {
+                const estilo = document.getElementById('tema-claro-style');
+                if (estilo) estilo.remove();
+            }
+        }
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema') || 'escuro';
+            aplicarTema(temaSalvo);
+        };
+    </script>
+
+</body>
+</html>

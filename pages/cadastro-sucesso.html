@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro realizado</title>
+    <link rel="stylesheet" href="../styles/cadastro-sucesso.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .success-box {
+            position: relative;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            border-radius: 18px;
+            box-shadow: 0 0 20px #000a;
+            padding: 40px 32px 32px 32px;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .top-icons-box {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            background: rgba(24, 0, 0, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+            display: flex;
+            gap: 18px;
+            padding: 18px 12px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .icon-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.14);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(176, 0, 0, 0.5);
+        }
+        .icon-btn::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 70px;
+            background: rgba(24, 0, 0, 0.95);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(176, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .icon-btn:hover::after {
+            opacity: 1;
+        }
+        .icon-chat::before {
+            content: '💬';
+            font-size: 24px;
+        }
+        .icon-search::before {
+            content: '🔍';
+            font-size: 24px;
+        }
+        .icon-config::before {
+            content: '⚙️';
+            font-size: 24px;
+        }
+        .icon-profile::before {
+            content: '👤';
+            font-size: 24px;
+        }
+        .icon-back::before {
+            content: '↩️';
+            font-size: 24px;
+        }
+
+        h1 {
+            color: #b00000;
+            margin-bottom: 18px;
+        }
+        p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+        .success-box {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 3000);
+    </script>
+
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../imagem/logo.img05.png" alt="Logo">
+    </div>
+    <div class="success-box">
+        <h1>Cadastro realizado com sucesso!</h1>
+        <p>Você será redirecionado em instantes...</p>
+    </div>
+    <div class="top-icons-box">
+        <a href="historico-chat.html" class="icon-btn" data-label="💬 Conversas" title="Conversas - Histórico de mensagens">
+            <span class="icon-chat"></span>
+        </a>
+        <a href="curriculos.html" class="icon-btn" data-label="🔍 Pesquisar" title="Pesquisar - Buscar currículos">
+            <span class="icon-search"></span>
+        </a>
+        <a href="config.html" class="icon-btn" data-label="⚙️ Configurações" title="Configurações - Tema, privacidade">
+            <span class="icon-config"></span>
+        </a>
+        <a href="suporte.html" class="icon-btn" data-label="👤 Meu Perfil" title="Perfil - Ver meu perfil">
+            <span class="icon-profile"></span>
+        </a>
+        <a href="#" class="icon-btn" data-label="↩️ Voltar" title="Voltar - Página anterior" onclick="event.preventDefault(); history.back();">
+            <span class="icon-back"></span>
+        </a>
+    </div>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                let estilo = document.getElementById('tema-claro-style');
+                if (!estilo) {
+                    estilo = document.createElement('style');
+                    estilo.id = 'tema-claro-style';
+                    document.head.appendChild(estilo);
+                }
+                estilo.textContent = `
+                    body { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; color: #000000 !important; }
+                    .success-container { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; border-color: #90caf9 !important; }
+                    h1 { color: #000000 !important; }
+                    p { color: #000000 !important; }
+                    button { background: #2196f3 !important; color: #ffffff !important; }
+                    button:hover { background: #1976d2 !important; }
+                    a { color: #000000 !important; }
+                    .icon-btn { background: rgba(255, 255, 255, 0.98) !important; border-color: #90caf9 !important; }
+                    .icon-btn:hover { background: rgba(100, 181, 246, 0.3) !important; box-shadow: 0 0 20px rgba(33, 150, 243, 0.4) !important; }
+                    .top-icons-box { background: rgba(66, 165, 245, 0.15) !important; box-shadow: 0 0 25px rgba(33, 150, 243, 0.25) !important; border: 1px solid #90caf9 !important; }
+                `;
+            } else {
+                const estilo = document.getElementById('tema-claro-style');
+                if (estilo) estilo.remove();
+            }
+        }
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema') || 'escuro';
+            aplicarTema(temaSalvo);
+        };
+    </script>
+
+</body>
+</html>

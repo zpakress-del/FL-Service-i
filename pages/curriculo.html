@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vagas pf - Página 4</title>
+    <link rel="stylesheet" href="../styles/curriculo.css">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            color: #ffffff;
+            font-family: 'Inter', Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 16px 40px;
+        }
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 32px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+            padding: 40px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 28px;
+            border: 3px solid rgba(255, 56, 56, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(184,0,0,0.20), rgba(255,255,255,0.04));
+            color: #ff8b8b;
+            margin: 0 auto 18px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none !important;
+        }
+        .profile-pic.has-photo img {
+            display: block !important;
+        }
+        .profile-pic .profile-initials {
+            position: absolute;
+            font-size: 2.4rem;
+            letter-spacing: 0.08rem;
+            z-index: 1;
+        }
+        .profile-pic.has-photo .profile-initials {
+            display: none;
+        }
+        .edit-btn {
+            display: block;
+            margin: 14px auto 32px;
+            color: #fff;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        h2,
+        h3 {
+            color: #ff6a6a;
+            margin: 0 0 18px;
+            font-size: 1rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .section {
+            margin-bottom: 100px;
+            padding: 24px;
+            border-radius: 28px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .info-label {
+            color: #d7d7d7;
+            font-weight: 600;
+            margin-top: 16px;
+            display: block;
+            font-size: 0.95rem;
+        }
+        .editable {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            color: #f0f0f0;
+            padding: 14px 16px;
+            margin-top: 10px;
+            width: 100%;
+            min-height: 42px;
+            font-size: 1rem;
+            line-height: 1.6;
+            outline: none;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        .skills,
+        .languages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .skill,
+        .language {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 999px;
+            padding: 10px 18px;
+            color: #ffb6b6;
+            font-size: 0.95rem;
+        }
+        .footer {
+            text-align: center;
+            color: #9a9a9a;
+            margin-top: 24px;
+            font-size: 0.92rem;
+        }
+        .add-btn {
+            color: #fff;
+            background: rgba(255,255,255,0.06);
+            border: 1px dashed rgba(255,255,255,0.14);
+            border-radius: 18px;
+            padding: 10px 18px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .chat-bubble,
+        .home-bubble {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: background 0.2s;
+        }
+        .chat-bubble:hover,
+        .home-bubble:hover {
+            background: #d84747;
+        }
+        .chat-bubble::before {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 32px;
+            background: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21 16.1944 16.9706 20 12 20C10.5272 20 9.13413 19.7362 7.91113 19.2672C7.37013 19.0622 6.74813 19.0992 6.24613 19.3702L3.85713 20.6462C3.38613 20.8992 2.89913 20.4632 3.02113 19.9442L3.57013 17.5912C3.68413 17.0992 3.52713 16.5632 3.17013 16.2072C2.42813 15.4662 2 14.5222 2 13.5C2 8.80558 6.02944 5 11 5C15.9706 5 21 8.80558 21 13.5Z" stroke="white" stroke-width="2"/><circle cx="8.5" cy="13" r="1.5" fill="white"/><circle cx="12" cy="13" r="1.5" fill="white"/><circle cx="15.5" cy="13" r="1.5" fill="white"/></svg>') no-repeat center center;
+            background-size: 32px 32px;
+        }
+        .home-bubble::before {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 32px;
+            background: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11L12 4L21 11V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V11Z" stroke="white" stroke-width="2"/><rect x="9" y="14" width="6" height="7" fill="white"/></svg>') no-repeat center center;
+            background-size: 32px 32px;
+        }
+        .floating-buttons,
+        .floating-buttons-vertical {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            gap: 16px;
+            z-index: 1000;
+        }
+        .floating-buttons-vertical {
+            flex-direction: column;
+        }
+        .top-icons-box {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            background: rgba(24, 0, 0, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+            display: flex;
+            gap: 18px;
+            padding: 18px 12px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .icon-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.14);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(176, 0, 0, 0.5);
+        }
+        .icon-btn::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 70px;
+            background: rgba(24, 0, 0, 0.95);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(176, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .icon-btn:hover::after {
+            opacity: 1;
+        }
+        .icon-chat::before {
+            content: '💬';
+            font-size: 24px;
+        }
+        .icon-search::before {
+            content: '🔍';
+            font-size: 24px;
+        }
+        .icon-config::before {
+            content: '⚙️';
+            font-size: 24px;
+        }
+        .icon-profile::before {
+            content: '👤';
+            font-size: 24px;
+        }
+        .icon-back::before {
+            content: '↩️';
+            font-size: 24px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        @media (max-width: 720px) {
+            .container {
+                padding: 28px 22px 32px;
+            }
+            .profile-pic {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../imagem/logo.img05.png" alt="Logo">
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile-pic" id="profileCircle">
+                <img id="imgPerfil" src="" alt="Foto de Perfil">
+                <span class="profile-initials">FT</span>
+            </div>
+           
+            <div class="section">
+                <span class="info-label">trocar foto de perfil</span>
+                <input type="file" id="fotoPerfil" accept="image/*" style="margin-bottom:12px; width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff;">
+            </div>
+              <div class="section">
+                <span class="info-label">Nome Completo</span>
+                <div class="editable" contenteditable="true" id="nome">Seu nome</div>
+                   <span class="info-label">Profissão</span>
+                <div class="editable" contenteditable="true" id="profissao">Sua profissão</div>
+            </div>
+           
+          
+            <div class="section">
+                <h2>Habilidades</h2>
+                <div class="skills">
+                </div>
+                <button class="add-btn">+ Adicionar habilidades</button>
+            </div>
+            <div class="section">
+                <h2>Idiomas</h2>
+                <div class="languages">
+                </div>
+                <button class="add-btn">+ Adicionar idioma</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="section">
+                <h2>Informações Pessoais</h2>
+                <span class="info-label">Email</span>
+                <div class="editable" contenteditable="true" id="userEmail">seu@email.com</div>
+                
+            </div>
+            <div class="section">
+                <h2>Resumo Profissional</h2>
+                <div class="editable" contenteditable="true" id="resumoProfissional">Results-driven professional with 8+ years of experience building scalable digital products. Passionate about bridging design and engineering to create user-centered solutions. Proven track record of leading cross-functional teams and delivering measurable business impact.</div>
+            </div>
+            <div class="section">
+                <h2>Experiência Profissional</h2>
+                <div id="experienceList">
+                    <div class="editable experiencia-item" contenteditable="true">
+                        <b>Vercel Inc.</b> — Lead Product Designer (2021 — Presente, Remoto)<br>
+                        Led end-to-end product design for the analytics dashboard, increasing user engagement by 42%. Managed a team of 4 designers and collaborated closely with engineering to ship features on a bi-weekly cadence.
+                    </div>
+                    <div class="editable experiencia-item" contenteditable="true">
+                        <b>Stripe</b> — Senior UX Engineer
+                    </div>
+                    <button class="add-btn">+ Adicionar</button>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Educação</h2>
+                <div id="educationList">
+                    <div class="editable" contenteditable="true">
+                        <b>Carnegie Mellon University</b> — M.S. Human-Computer Interaction (2014 – 2016, 3.9 / 4.0)
+                    </div>
+                    <div class="editable" contenteditable="true">
+                        <b>UC Berkeley</b> — B.S. Computer Science (2010 – 2014, 3.7 / 4.0)
+                    </div>
+                </div>
+                <button id="addEducationBtn" class="add-btn">+ Adicionar educação</button>
+            </div>
+        </div>
+    </div>
+    <div class="floating-buttons-vertical">
+       
+    </div>
+    <div class="top-icons-box">
+        <a href="historico-chat.html" class="icon-btn" data-label="💬 Conversas" title="Conversas - Histórico de mensagens">
+            <span class="icon-chat"></span>
+        </a>
+        <a href="curriculos.html" class="icon-btn" data-label="🔍 Pesquisar" title="Pesquisar - Buscar currículos">
+            <span class="icon-search"></span>
+        </a>
+        <a href="config.html" class="icon-btn" data-label="⚙️ Configurações" title="Configurações - Tema, privacidade">
+            <span class="icon-config"></span>
+        </a>
+        <a href="suporte.html" class="icon-btn" data-label="👤 Meu Perfil" title="Perfil - Ver meu perfil">
+            <span class="icon-profile"></span>
+        </a>
+        <a href="#" class="icon-btn" data-label="↩️ Voltar" title="Voltar - Página anterior" onclick="event.preventDefault(); history.back();">
+            <span class="icon-back"></span>
+        </a>
+    </div>
+    <script>
+        // Carregar dados do usuário logado
+        const educationList = document.getElementById('educationList');
+        const addEducationBtn = document.getElementById('addEducationBtn');
+        const skillsContainer = document.querySelector('.skills');
+        const languagesContainer = document.querySelector('.languages');
+        const experienceList = document.getElementById('experienceList');
+
+        function criarItemEducacao(text = '') {
+            const item = document.createElement('div');
+            item.className = 'editable';
+            item.contentEditable = 'true';
+            item.innerText = text || 'Nova formação';
+            item.addEventListener('blur', salvarCurriculo);
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    item.blur();
+                    salvarCurriculo();
+                }
+            });
+            return item;
+        }
+
+        function getUsuarioAtivo() {
+            const userLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+            const usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+
+            if (userLogado && (userLogado.email || userLogado.cpf || userLogado.nome)) {
+                const completo = usuarios.find(u =>
+                    (userLogado.email && u.email === userLogado.email) ||
+                    (userLogado.cpf && u.cpf === userLogado.cpf) ||
+                    (userLogado.nome && u.nome === userLogado.nome)
+                );
+                return completo ? {...completo, ...userLogado} : userLogado;
+            }
+
+            if (usuarios.length) {
+                return usuarios[usuarios.length - 1];
+            }
+
+            return {};
+        }
+
+        function aplicarFotoPerfil(userLogado) {
+            const img = document.getElementById('imgPerfil');
+            const profileCircle = document.getElementById('profileCircle');
+            const usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+            const usuarioCadastrado = usuarios.find(u => u.email === userLogado.email || u.cpf === userLogado.cpf || u.nome === userLogado.nome);
+            const fotoParaCarregar = (userLogado.foto || usuarioCadastrado?.foto || '').trim();
+
+            if (img && profileCircle) {
+                if (fotoParaCarregar) {
+                    img.src = fotoParaCarregar;
+                    profileCircle.classList.add('has-photo');
+                    if (!userLogado.foto) {
+                        userLogado.foto = fotoParaCarregar;
+                        localStorage.setItem('usuarioLogado', JSON.stringify(userLogado));
+                    }
+                } else {
+                    img.removeAttribute('src');
+                    profileCircle.classList.remove('has-photo');
+                }
+            }
+        }
+
+        function carregarDadosUsuario() {
+            const userLogado = getUsuarioAtivo();
+            if (!userLogado || Object.keys(userLogado).length === 0) {
+                return;
+            }
+
+            if (userLogado.profissao) document.getElementById('profissao').innerText = userLogado.profissao;
+            if (userLogado.nome) document.getElementById('nome').innerText = userLogado.nome;
+            if (userLogado.telefone) document.getElementById('telefone').innerText = userLogado.telefone;
+
+            aplicarFotoPerfil(userLogado);
+            if (userLogado.email) document.getElementById('userEmail').innerText = userLogado.email;
+            if (userLogado.userPhoneExtra) document.getElementById('userPhoneExtra').innerText = userLogado.userPhoneExtra;
+            if (userLogado.resumoProfissional) document.getElementById('resumoProfissional').innerText = userLogado.resumoProfissional;
+            if (userLogado.experiencias && Array.isArray(userLogado.experiencias) && userLogado.experiencias.length) {
+                const experienceList = document.getElementById('experienceList');
+                experienceList.innerHTML = '';
+                userLogado.experiencias.forEach(item => {
+                    const entry = document.createElement('div');
+                    entry.className = 'editable experiencia-item';
+                    entry.contentEditable = 'true';
+                    entry.innerHTML = item;
+                    entry.addEventListener('blur', salvarCurriculo);
+                    entry.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            entry.blur();
+                            salvarCurriculo();
+                        }
+                    });
+                    experienceList.appendChild(entry);
+                });
+            }
+            if (Array.isArray(userLogado.habilidades) && userLogado.habilidades.length) {
+                skillsContainer.innerHTML = '';
+                userLogado.habilidades.forEach(item => {
+                    const chip = document.createElement('span');
+                    chip.className = 'skill';
+                    chip.textContent = item;
+                    skillsContainer.appendChild(chip);
+                });
+            }
+            if (Array.isArray(userLogado.idiomas) && userLogado.idiomas.length) {
+                languagesContainer.innerHTML = '';
+                userLogado.idiomas.forEach(item => {
+                    const chip = document.createElement('span');
+                    chip.className = 'language';
+                    chip.textContent = item;
+                    languagesContainer.appendChild(chip);
+                });
+            }
+            if (userLogado.educacao && Array.isArray(userLogado.educacao) && userLogado.educacao.length) {
+                educationList.innerHTML = '';
+                userLogado.educacao.forEach(item => educationList.appendChild(criarItemEducacao(item)));
+            }
+            document.querySelectorAll('#educationList .editable').forEach(item => {
+                item.addEventListener('blur', salvarCurriculo);
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        item.blur();
+                        salvarCurriculo();
+                    }
+                });
+            });
+            document.querySelectorAll('#experienceList .editable').forEach(item => {
+                item.addEventListener('blur', salvarCurriculo);
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        item.blur();
+                        salvarCurriculo();
+                    }
+                });
+            });
+        }
+        function adicionarSkill() {
+            const valor = prompt('Digite uma habilidade:');
+            if (!valor || !valor.trim()) return;
+            const chip = document.createElement('span');
+            chip.className = 'skill';
+            chip.textContent = valor.trim();
+            skillsContainer.appendChild(chip);
+            salvarCurriculo();
+        }
+
+        function adicionarIdioma() {
+            const valor = prompt('Digite um idioma:');
+            if (!valor || !valor.trim()) return;
+            const chip = document.createElement('span');
+            chip.className = 'language';
+            chip.textContent = valor.trim();
+            languagesContainer.appendChild(chip);
+            salvarCurriculo();
+        }
+
+        function adicionarExperiencia() {
+            const item = document.createElement('div');
+            item.className = 'editable experiencia-item';
+            item.contentEditable = 'true';
+            item.innerHTML = 'Nova experiência — Descreva sua função e período.';
+            item.addEventListener('blur', salvarCurriculo);
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    item.blur();
+                    salvarCurriculo();
+                }
+            });
+            experienceList.appendChild(item);
+            salvarCurriculo();
+        }
+
+        carregarDadosUsuario();
+        document.querySelectorAll('.add-btn')[0]?.addEventListener('click', adicionarSkill);
+        document.querySelectorAll('.add-btn')[1]?.addEventListener('click', adicionarIdioma);
+        document.querySelectorAll('#experienceList .add-btn')[0]?.addEventListener('click', adicionarExperiencia);
+        addEducationBtn.addEventListener('click', function() {
+            educationList.appendChild(criarItemEducacao('Nova formação'));
+            salvarCurriculo();
+        });
+
+        // Salvar alterações
+        function salvarCurriculo() {
+            try {
+            const profissao = document.getElementById('profissao')?.innerText.trim() || '';
+            const nome = document.getElementById('nome')?.innerText.trim() || '';
+            const telefoneEl = document.getElementById('telefone');
+            const telefone = telefoneEl ? telefoneEl.innerText.trim() : '';
+            const email = document.getElementById('userEmail')?.innerText.trim() || '';
+            const userPhoneExtraEl = document.getElementById('userPhoneExtra');
+            const userPhoneExtra = userPhoneExtraEl ? userPhoneExtraEl.innerText.trim() : '';
+            const resumoProfissional = document.getElementById('resumoProfissional')?.innerText.trim() || '';
+            const habilidades = Array.from(document.querySelectorAll('.skills .skill')).map(el => el.textContent.trim()).filter(Boolean);
+            const idiomas = Array.from(document.querySelectorAll('.languages .language')).map(el => el.textContent.trim()).filter(Boolean);
+            const experiencias = Array.from(document.querySelectorAll('#experienceList .editable')).map(el => el.innerHTML.trim()).filter(Boolean);
+            const educacao = Array.from(document.querySelectorAll('#educationList .editable')).map(el => el.innerText.trim()).filter(Boolean);
+            let userLogado = getUsuarioAtivo();
+            const emailAnterior = userLogado.email || '';
+            const cpfAnterior = userLogado.cpf || '';
+            userLogado.profissao = profissao;
+            userLogado.nome = nome;
+            userLogado.telefone = telefone || userLogado.telefone || '';
+            userLogado.email = email || userLogado.email || '';
+            userLogado.userPhoneExtra = userPhoneExtra || userLogado.userPhoneExtra || '';
+            userLogado.resumoProfissional = resumoProfissional;
+            userLogado.experiencias = experiencias;
+            userLogado.educacao = educacao;
+            userLogado.habilidades = habilidades;
+            userLogado.idiomas = idiomas;
+            localStorage.setItem('usuarioLogado', JSON.stringify(userLogado));
+            let usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+            usuarios = usuarios.map(u => (u.email === emailAnterior || u.cpf === cpfAnterior || u.email === email || u.cpf === userLogado.cpf) ?
+                {...u, profissao, nome, telefone: userLogado.telefone, educacao, resumoProfissional, experiencias, habilidades, idiomas, userPhoneExtra: userLogado.userPhoneExtra, email: userLogado.email} : u);
+            localStorage.setItem('usuariosVagasPF', JSON.stringify(usuarios));
+            } catch (error) {
+                console.error('Erro ao salvar currículo:', error);
+            }
+        }
+        function salvarAoPressionarEnter(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                e.target.blur();
+                salvarCurriculo();
+            }
+        }
+        document.getElementById('profissao')?.addEventListener('keydown', salvarAoPressionarEnter);
+        document.getElementById('nome')?.addEventListener('keydown', salvarAoPressionarEnter);
+        const telefoneEl = document.getElementById('telefone');
+        if (telefoneEl) telefoneEl.addEventListener('keydown', salvarAoPressionarEnter);
+        document.getElementById('userEmail')?.addEventListener('keydown', salvarAoPressionarEnter);
+        const userPhoneExtraEl = document.getElementById('userPhoneExtra');
+        if (userPhoneExtraEl) userPhoneExtraEl.addEventListener('keydown', salvarAoPressionarEnter);
+        document.getElementById('resumoProfissional')?.addEventListener('keydown', salvarAoPressionarEnter);
+        document.querySelectorAll('#experienceList .editable').forEach(item => item.addEventListener('keydown', salvarAoPressionarEnter));
+        document.querySelectorAll('#educationList .editable').forEach(item => item.addEventListener('keydown', salvarAoPressionarEnter));
+        // Upload de foto
+        const fotoPerfilInput = document.getElementById('fotoPerfil');
+        if (fotoPerfilInput) {
+            fotoPerfilInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        const img = document.getElementById('imgPerfil');
+                        const profileCircle = document.getElementById('profileCircle');
+                        const fotoData = ev.target.result;
+                        
+                        if (img && profileCircle) {
+                            img.src = fotoData;
+                            profileCircle.classList.add('has-photo');
+                            
+                            // Salvar foto imediatamente
+                            let userLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+                            userLogado.foto = fotoData;
+                            localStorage.setItem('usuarioLogado', JSON.stringify(userLogado));
+                            
+                            // Atualizar também no array de usuários
+                            let usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+                            usuarios = usuarios.map(u =>
+                                (u.email === userLogado.email || u.cpf === userLogado.cpf || u.nome === userLogado.nome)
+                                    ? {...u, foto: fotoData}
+                                    : u
+                            );
+                            localStorage.setItem('usuariosVagasPF', JSON.stringify(usuarios));
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                let estilo = document.getElementById('tema-claro-style');
+                if (!estilo) {
+                    estilo = document.createElement('style');
+                    estilo.id = 'tema-claro-style';
+                    document.head.appendChild(estilo);
+                }
+                estilo.textContent = `
+                    body { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; color: #000000 !important; }
+                    .container { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; border-color: #b3e5fc !important; }
+                    .sidebar { background: rgba(255, 255, 255, 0.96) !important; border-color: #90caf9 !important; }
+                    h2, h3 { color: #000000 !important; }
+                    .section { background: rgba(255, 255, 255, 0.96) !important; border-color: #90caf9 !important; }
+                    .editable { background: #ffffff !important; color: #000000 !important; border-color: #90caf9 !important; }
+                    .info-label { color: #000000 !important; }
+                    .profile-pic { border-color: #000000 !important; background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(227, 242, 253, 0.4)) !important; color: #000000 !important; }
+                    input[type="file"] { background: #ffffff !important; color: #000000 !important; border-color: #90caf9 !important; }
+                    .add-btn { color: #000000 !important; background: rgba(255, 255, 255, 0.96) !important; border-color: #90caf9 !important; }
+                    .icon-btn { background: rgba(255, 255, 255, 0.98) !important; border-color: #90caf9 !important; }
+                    .icon-btn:hover { background: rgba(100, 181, 246, 0.3) !important; box-shadow: 0 0 20px rgba(33, 150, 243, 0.4) !important; }
+                    .top-icons-box { background: rgba(66, 165, 245, 0.15) !important; box-shadow: 0 0 25px rgba(33, 150, 243, 0.25) !important; border: 1px solid #90caf9 !important; }
+                    .skill, .language { background: rgba(219, 234, 254, 0.9) !important; border-color: #90caf9 !important; color: #000000 !important; }
+                `;
+            } else {
+                const estilo = document.getElementById('tema-claro-style');
+                if (estilo) estilo.remove();
+            }
+        }
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema') || 'escuro';
+            aplicarTema(temaSalvo);
+        };
+    </script>
+
+</body>
+</html>

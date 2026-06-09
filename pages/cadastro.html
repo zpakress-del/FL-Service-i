@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="../styles/cadastro.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%); color: #fff; margin: 0; padding: 40px; min-height: 100vh; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    h1 { color: #b00000; margin-bottom: 16px; }
+    p { color: #ccc; margin-bottom: 32px; }
+    .main-btn { display: inline-block; padding: 12px 28px; background: #b00000; color: #fff; border: none; border-radius: 24px; font-size: 1.1rem; font-weight: bold; text-decoration: none; transition: background 0.2s; box-shadow: 0 2px 8px #000a; }
+    .main-btn:hover { background: #d84747; color: #fff; }
+    .register-box {
+      background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+      border-radius: 18px;
+      box-shadow: 0 0 20px #000a;
+      padding: 40px 32px 32px 32px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      color: #ccc;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #121212;
+      color: #fff;
+      font-size: 1rem;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #b00000;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px #000a;
+    }
+    button[type="submit"]:hover {
+      background: #d84747;
+      color: #fff;
+    }
+    .logo-container {
+      text-align: center;
+    }
+    .logo-container img {
+      max-width: 420px;
+      height: auto;
+    }
+    main {
+      flex-shrink: 0;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="logo-container">
+    <img src="../imagem/logo.img05.png" alt="Logo">
+  </div>
+  <main>
+    <h1>Cadastro de usuário</h1>
+    <p>Informe seus dados pessoais para criar sua conta.</p>
+    <form id="cadastro-form" onsubmit="cadastrarUsuario(); return false;">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Nome completo</label>
+          <input id="name" type="text" placeholder="Seu nome completo" />
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="seu@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefone</label>
+          <input id="phone" type="tel" placeholder="(92) 99248-4038" />
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <input id="cpf" type="text" placeholder="000.000.000-00" />
+        </div>
+        <div class="form-group">
+          <label for="profissao">Profissão</label>
+          <input id="profissao" type="text" placeholder="Ex: Eletricista, Designer, etc." />
+        </div>
+        <div class="form-group">
+          <label for="foto">Foto de Perfil</label>
+          <input id="foto" type="file" accept="image/*" />
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input id="password" type="password" placeholder="Escolha uma senha" />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar senha</label>
+          <input id="confirmPassword" type="password" placeholder="Repita a senha" />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary">Cadastrar</button>
+        <button type="button" class="secondary" onclick="location.href='index.html'">Voltar ao login</button>
+      </div>
+      <p id="cadastro-error" class="error"></p>
+    </form>
+  </main>
+  <script>
+    const senhaInput = document.getElementById('password');
+    const confirmarInput = document.getElementById('confirmPassword');
+    const erroInput = document.getElementById('cadastro-error');
+    const phoneInput = document.getElementById('phone');
+    const cpfInput = document.getElementById('cpf');
+
+    function formatarTelefone(valor) {
+      const numeros = (valor || '').replace(/\D/g, '').slice(0, 11);
+      if (!numeros) return '';
+      if (numeros.length <= 2) return `(${numeros}`;
+      if (numeros.length <= 7) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+      return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+    }
+
+    function formatarCpf(valor) {
+      const numeros = (valor || '').replace(/\D/g, '').slice(0, 11);
+      if (!numeros) return '';
+      return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function (e) {
+        e.target.value = formatarTelefone(e.target.value);
+      });
+    }
+
+    if (cpfInput) {
+      cpfInput.addEventListener('input', function (e) {
+        e.target.value = formatarCpf(e.target.value);
+      });
+    }
+
+    function validatePasswordMatch() {
+      const senha = senhaInput.value;
+      const confirmar = confirmarInput.value;
+      if (!senha && !confirmar) {
+        senhaInput.classList.remove('input-invalid');
+        confirmarInput.classList.remove('input-invalid');
+        erroInput.style.display = 'none';
+        return;
+      }
+      if (senha !== confirmar) {
+        confirmarInput.classList.add('input-invalid');
+        erroInput.textContent = 'As senhas devem ser iguais.';
+        erroInput.style.display = 'block';
+      } else {
+        confirmarInput.classList.remove('input-invalid');
+        erroInput.style.display = 'none';
+      }
+    }
+
+    senhaInput.addEventListener('input', validatePasswordMatch);
+    confirmarInput.addEventListener('input', validatePasswordMatch);
+
+    function cadastrarUsuario() {
+      const nome = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('phone').value.trim();
+      const cpf = document.getElementById('cpf').value.trim();
+      const profissao = document.getElementById('profissao').value.trim();
+      const senha = senhaInput.value;
+      const confirmar = confirmarInput.value;
+      const erro = erroInput;
+      const fotoInput = document.getElementById('foto');
+
+      if (!nome || !email || !telefone || !cpf || !profissao || !senha || !confirmar) {
+        erro.textContent = 'Preencha todos os campos antes de cadastrar.';
+        erro.style.display = 'block';
+        return;
+      }
+      if (senha !== confirmar) {
+        erro.textContent = 'As senhas não coincidem.';
+        erro.style.display = 'block';
+        senhaInput.classList.add('input-invalid');
+        confirmarInput.classList.add('input-invalid');
+        return;
+      }
+      if (!email.includes('@')) {
+        erro.textContent = 'Informe um e-mail válido.';
+        erro.style.display = 'block';
+        return;
+      }
+
+      // Foto como base64
+      const file = fotoInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          salvarUsuario(nome, email, telefone, cpf, profissao, senha, e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        salvarUsuario(nome, email, telefone, cpf, profissao, senha, '');
+      }
+    }
+
+    function salvarUsuario(nome, email, telefone, cpf, profissao, senha, foto) {
+      const usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+      const usuario = { nome, email, telefone, cpf, profissao, senha, foto };
+      const registroExistente = usuarios.find(u => u.email === email);
+      if (registroExistente) {
+        erroInput.textContent = 'Este e-mail já está cadastrado. Use um e-mail diferente ou faça login.';
+        erroInput.style.display = 'block';
+        return;
+      }
+      usuarios.push(usuario);
+      localStorage.setItem('usuariosVagasPF', JSON.stringify(usuarios));
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+      localStorage.setItem('cadastroConcluido', 'true');
+      erroInput.style.display = 'none';
+      window.location.href = 'cadastro-sucesso.html';
+    }
+
+    // Salva dados do cadastro no Local Storage
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const nome = document.getElementById('nome').value;
+        const usuario = document.getElementById('usuario').value;
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        localStorage.setItem('userData', JSON.stringify({ nome, usuario, email, senha }));
+    });
+  </script>
+  <script>
+    function aplicarTema(tema) {
+        if (tema === 'claro') {
+            let estilo = document.getElementById('tema-claro-style');
+            if (!estilo) {
+                estilo = document.createElement('style');
+                estilo.id = 'tema-claro-style';
+                document.head.appendChild(estilo);
+            }
+            estilo.textContent = `
+                body { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; color: #000000 !important; }
+                .register-box { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; border-color: #b3e5fc !important; }
+                h1 { color: #000000 !important; }
+                label { color: #000000 !important; }
+                input[type="text"], input[type="email"], input[type="password"] { background: #ffffff !important; color: #000000 !important; border-color: #90caf9 !important; }
+                button[type="submit"] { background: #2196f3 !important; color: #ffffff !important; border-color: #000000 !important; }
+                button[type="submit"]:hover { background: #1976d2 !important; }
+                .secondary { background: #e8f4f8 !important; color: #000000 !important; border-color: #000000 !important; }
+                .secondary:hover { background: #d1ecf1 !important; }
+            `;
+        } else {
+            const estilo = document.getElementById('tema-claro-style');
+            if (estilo) estilo.remove();
+        }
+    }
+    window.onload = function() {
+        const temaSalvo = localStorage.getItem('tema') || 'escuro';
+        aplicarTema(temaSalvo);
+    };
+  </script>
+  <script>
+    (function () {
+      const pageName = location.pathname.split('/').pop().replace(/\.html$/i, '');
+      const pageKey = 'tutorialVisto_' + pageName;
+      if (localStorage.getItem(pageKey) === 'true') return;
+
+      const guides = {
+        index: [
+          { title: 'Login', text: 'Use este formulário para entrar com seu e-mail e senha.', target: 'form' },
+          { title: 'Cadastro', text: 'Clique para criar sua conta e começar a usar o sistema.', target: 'a.register-btn, .secondary' }
+        ],
+        cadastro: [
+          { title: 'Dados do cadastro', text: 'Preencha nome, telefone, CPF e senha neste formulário.', target: 'form' },
+          { title: 'Voltar ao login', text: 'Use este botão para retornar à página de acesso.', target: '.secondary' }
+        ]
+      };
+
+      const steps = guides[pageName] || guides.index;
+
+      function findTarget(selector) {
+        if (!selector) return document.body;
+        if (selector.includes(',')) {
+          for (const part of selector.split(',')) {
+            const found = document.querySelector(part.trim());
+            if (found) return found;
+          }
+          return document.querySelector(selector.split(',')[0].trim()) || document.body;
+        }
+        return document.querySelector(selector) || document.body;
+      }
+
+      function createArrow(target) {
+        const rect = target.getBoundingClientRect();
+        const arrow = document.createElement('div');
+        arrow.textContent = '↑';
+        arrow.style.position = 'fixed';
+        arrow.style.left = Math.max(12, rect.left + rect.width / 2 - 16) + 'px';
+        arrow.style.top = Math.max(12, rect.top - 46) + 'px';
+        arrow.style.zIndex = '10000';
+        arrow.style.fontSize = '32px';
+        arrow.style.color = '#ff6a6a';
+        arrow.style.textShadow = '0 0 10px rgba(255, 106, 106, 0.6)';
+        arrow.style.pointerEvents = 'none';
+        document.body.appendChild(arrow);
+        return arrow;
+      }
+
+      function createOverlay() {
+        const overlay = document.createElement('div');
+        overlay.id = 'tutorial-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.background = 'rgba(0, 0, 0, 0.82)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.fontFamily = 'Arial, sans-serif';
+
+        const card = document.createElement('div');
+        card.style.width = 'min(430px, 92vw)';
+        card.style.background = 'linear-gradient(180deg, #171717 0%, #1f1f1f 100%)';
+        card.style.border = '1px solid rgba(255,255,255,0.12)';
+        card.style.borderRadius = '22px';
+        card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.45)';
+        card.style.padding = '18px';
+        card.style.color = '#fff';
+
+        const title = document.createElement('h2');
+        title.textContent = 'Tutorial da página';
+        title.style.margin = '0 0 8px';
+        title.style.color = '#ff6a6a';
+        title.style.fontSize = '1.1rem';
+
+        const intro = document.createElement('p');
+        intro.textContent = 'Este guia é específico desta tela e mostra as áreas principais com setas para ajudar na navegação.';
+        intro.style.margin = '0 0 10px';
+        intro.style.color = '#f2f2f2';
+        intro.style.lineHeight = '1.45';
+
+        const list = document.createElement('div');
+        list.style.display = 'grid';
+        list.style.gap = '8px';
+
+        steps.forEach((step, index) => {
+          const node = document.createElement('div');
+          node.style.background = 'rgba(255,255,255,0.05)';
+          node.style.border = '1px solid rgba(255,255,255,0.08)';
+          node.style.borderRadius = '14px';
+          node.style.padding = '10px';
+          node.innerHTML = `<strong style="color:#ffb6b6;">${index + 1}. ${step.title}</strong><br><span style="color:#fff; font-size:0.95rem;">${step.text}</span>`;
+          list.appendChild(node);
+        });
+
+        const hint = document.createElement('p');
+        hint.textContent = 'A seta abaixo aponta para o bloco principal desta página.';
+        hint.style.margin = '8px 0 0';
+        hint.style.color = '#d7d7d7';
+        hint.style.fontSize = '0.95rem';
+
+        const buttons = document.createElement('div');
+        buttons.style.display = 'flex';
+        buttons.style.justifyContent = 'space-between';
+        buttons.style.gap = '8px';
+        buttons.style.marginTop = '10px';
+
+        const skip = document.createElement('button');
+        skip.textContent = 'Pular';
+        skip.style.background = '#1f1f1f';
+        skip.style.color = '#fff';
+        skip.style.border = '1px solid rgba(255,255,255,0.12)';
+        skip.style.borderRadius = '999px';
+        skip.style.padding = '10px 14px';
+        skip.style.cursor = 'pointer';
+
+        const ok = document.createElement('button');
+        ok.textContent = 'Entendi';
+        ok.style.background = '#b00000';
+        ok.style.color = '#fff';
+        ok.style.border = 'none';
+        ok.style.borderRadius = '999px';
+        ok.style.padding = '10px 14px';
+        ok.style.cursor = 'pointer';
+
+        const target = findTarget(steps[0].target);
+        const arrow = createArrow(target);
+
+        skip.addEventListener('click', () => {
+          localStorage.setItem(pageKey, 'true');
+          arrow.remove();
+          overlay.remove();
+        });
+
+        ok.addEventListener('click', () => {
+          localStorage.setItem(pageKey, 'true');
+          arrow.remove();
+          overlay.remove();
+        });
+
+        buttons.appendChild(skip);
+        buttons.appendChild(ok);
+
+        card.appendChild(title);
+        card.appendChild(intro);
+        card.appendChild(list);
+        card.appendChild(hint);
+        card.appendChild(buttons);
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      window.addEventListener('load', () => {
+        setTimeout(createOverlay, 350);
+      });
+    })();
+  </script>
+</body>
+</html>

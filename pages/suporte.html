@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte</title>
+    <link rel="stylesheet" href="../styles/suporte.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+        }
+        .page {
+            position: relative;
+        }
+        .top-icons-box {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            background: rgba(24, 0, 0, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+            display: flex;
+            gap: 18px;
+            padding: 18px 12px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .icon-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.14);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(176, 0, 0, 0.5);
+        }
+        .icon-chat::before {
+            content: '💬';
+            font-size: 24px;
+        }
+        .icon-search::before {
+            content: '🔍';
+            font-size: 24px;
+        }
+        .icon-config::before {
+            content: '⚙️';
+            font-size: 24px;
+        }
+        .icon-profile::before {
+            content: '👤';
+            font-size: 24px;
+        }
+        .icon-back::before {
+            content: '↩️';
+            font-size: 24px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../imagem/logo.img05.png" alt="Logo">
+    </div>
+    <div class="page">
+        <h1><strong>Selecione seu Perfil</strong></h1>
+        <p>Escolha se você deseja acessar o curriculo profissional (voce vai vender seus serviços) ou  cliente (voce vai contratar serviços).</p>
+        <div class="section">
+            <div class="choice-grid">
+                <a class="choice-card" id="profissionalBtn" href="#">
+                    <h2>Profissional</h2>
+                    <p>edite seu curriculo para ser contratado.</p>
+                </a>
+                <a class="choice-card" id="clienteBtn" href="#">
+                    <h2>Cliente</h2>
+                    <p>aqui você procura e contrata profissionais.</p>
+                </a>
+            </div>
+        </div>
+        <div class="nav">
+          
+        </div>
+    </div>
+    
+    <script>
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+
+        function atualizarUsuarioLogado(tipoPerfil) {
+            if (!usuarioLogado) return;
+            usuarioLogado.tipoPerfil = tipoPerfil;
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+            const usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+            let encontrado = false;
+            const chave = usuarioLogado.email || usuarioLogado.cpf || '';
+            const novosUsuarios = usuarios.map(u => {
+                if ((chave && (u.email === chave || u.cpf === chave)) || (!chave && u.cpf === usuarioLogado.cpf)) {
+                    encontrado = true;
+                    return {...u, tipoPerfil};
+                }
+                return u;
+            });
+            if (!encontrado) {
+                novosUsuarios.push({...usuarioLogado, tipoPerfil});
+            }
+            localStorage.setItem('usuariosVagasPF', JSON.stringify(novosUsuarios));
+        }
+
+        if (!usuarioLogado) {
+            document.querySelector('.page').innerHTML = '<h1>Precisamos que você faça login</h1><p>Para acessar as opções de perfil, entre com sua conta primeiro.</p><div class="nav"><a href="index.html">Voltar ao Login</a></div>';
+        } else {
+            document.getElementById('profissionalBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                atualizarUsuarioLogado('profissional');
+                window.location.href = 'curriculo.html';
+            });
+            document.getElementById('clienteBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                atualizarUsuarioLogado('cliente');
+                window.location.href = 'mini-curriculo.html';
+            });
+        }
+    </script>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                document.body.style.background = 'linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%)';
+                document.body.style.color = '#111827';
+                document.querySelector('.page') && (document.querySelector('.page').style.background = 'linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%)');
+                document.querySelector('.section') && (document.querySelector('.section').style.background = 'rgba(255, 255, 255, 0.96)');
+                document.querySelector('.choice-card') && Array.from(document.querySelectorAll('.choice-card')).forEach(card => {
+                    card.style.background = 'rgba(255, 255, 255, 0.96)';
+                    card.style.border = '1px solid #90caf9';
+                    card.style.color = '#111827';
+                });
+                document.querySelectorAll('.choice-card h2, .choice-card p').forEach(el => el.style.color = '#111827');
+                document.querySelector('.top-icons-box') && (document.querySelector('.top-icons-box').style.background = 'rgba(66, 165, 245, 0.15)');
+                document.querySelector('.top-icons-box') && (document.querySelector('.top-icons-box').style.border = '1px solid #90caf9');
+                document.querySelectorAll('.icon-btn').forEach(btn => {
+                    btn.style.background = 'rgba(255, 255, 255, 0.98)';
+                    btn.style.borderColor = '#90caf9';
+                });
+            } else {
+                document.body.style.background = 'linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%)';
+                document.body.style.color = '#fff';
+                document.querySelector('.page') && (document.querySelector('.page').style.background = '');
+                document.querySelector('.section') && (document.querySelector('.section').style.background = '');
+                document.querySelectorAll('.choice-card').forEach(card => {
+                    card.style.background = '';
+                    card.style.border = '';
+                    card.style.color = '';
+                });
+                document.querySelectorAll('.choice-card h2, .choice-card p').forEach(el => el.style.color = '');
+                document.querySelector('.top-icons-box') && (document.querySelector('.top-icons-box').style.background = '');
+                document.querySelector('.top-icons-box') && (document.querySelector('.top-icons-box').style.border = '');
+                document.querySelectorAll('.icon-btn').forEach(btn => {
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                });
+            }
+        }
+        function aplicarTemaAtual() {
+            aplicarTema(localStorage.getItem('tema') || 'escuro');
+        }
+        window.onload = aplicarTemaAtual;
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'tema') aplicarTemaAtual();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo do Currículo</title>
+    <link rel="stylesheet" href="../styles/resumo-do-curriculo.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+        }
+        .page {
+            position: relative;
+        }
+        .top-icons-box {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            background: rgba(24, 0, 0, 0.85);
+            border-radius: 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+            display: flex;
+            gap: 18px;
+            padding: 18px 12px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .icon-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.14);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(176, 0, 0, 0.5);
+        }
+        .icon-btn::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 70px;
+            background: rgba(24, 0, 0, 0.95);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(176, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .icon-btn:hover::after {
+            opacity: 1;
+        }
+        .icon-chat::before {
+            content: '💬';
+            font-size: 24px;
+        }
+        .icon-search::before {
+            content: '🔍';
+            font-size: 24px;
+        }
+        .icon-config::before {
+            content: '⚙️';
+            font-size: 24px;
+        }
+        .icon-profile::before {
+            content: '👤';
+            font-size: 24px;
+        }
+        .icon-back::before {
+            content: '↩️';
+            font-size: 24px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../imagem/logo.img05.png" alt="Logo">
+    </div>
+    <div class="page">
+        <h1>Resumo do Currículo</h1>
+        <div class="summary-card" id="summaryCard">
+            <div class="summary-header">
+                <div class="summary-avatar-box">
+                    <img id="summaryFoto" class="summary-avatar" src="" alt="Foto do candidato">
+                </div>
+                <div>
+                    <div class="summary-name" id="summaryName">Nome do candidato</div>
+                    <div class="summary-role" id="summaryRole">Profissão</div>
+                    <div class="summary-contact-chips">
+                        <span><strong>CPF:</strong> <span id="summaryCpf">000.000.000-00</span></span>
+                        <span><strong>Email:</strong> <span id="summaryEmail">email@exemplo.com</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-block summary-block-large">
+                <h2>Resumo Profissional</h2>
+                <p id="summaryResumo">Resumo não disponível.</p>
+            </div>
+            <div class="summary-block">
+                <h2>Experiência</h2>
+                <div id="summaryExperiencias"></div>
+            </div>
+            <div class="summary-block">
+                <h2>Educação</h2>
+                <div id="summaryEducacao"></div>
+            </div>
+         
+        <div class="nav">
+            <a href="curriculos.html">Voltar para Currículos</a>
+        </div>
+    </div>
+    <div class="top-icons-box">
+        <a href="historico-chat.html" class="icon-btn" data-label="💬 Conversas" title="Conversas - Histórico de mensagens">
+            <span class="icon-chat"></span>
+        </a>
+        <a href="curriculos.html" class="icon-btn" data-label="🔍 Pesquisar" title="Pesquisar - Buscar currículos">
+            <span class="icon-search"></span>
+        </a>
+        <a href="config.html" class="icon-btn" data-label="⚙️ Configurações" title="Configurações - Tema, privacidade">
+            <span class="icon-config"></span>
+        </a>
+        <a href="suporte.html" class="icon-btn" data-label="👤 Meu Perfil" title="Perfil - Ver meu perfil">
+            <span class="icon-profile"></span>
+        </a>
+        <a href="#" class="icon-btn" data-label="↩️ Voltar" title="Voltar - Página anterior" onclick="event.preventDefault(); history.back();">
+            <span class="icon-back"></span>
+        </a>
+    </div>
+    <script>
+        function getQueryParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+
+        function criarElementoTexto(tag, text) {
+            const element = document.createElement(tag);
+            element.textContent = text;
+            return element;
+        }
+
+        function carregarResumo() {
+            const email = getQueryParam('email');
+            const usuarios = JSON.parse(localStorage.getItem('usuariosVagasPF') || '[]');
+            const usuario = usuarios.find(u => u.email === email);
+            if (!usuario) {
+                document.getElementById('summaryCard').innerHTML = '<div class="empty">Currículo não encontrado.</div>';
+                return;
+            }
+            document.getElementById('summaryName').textContent = usuario.nome || 'Nome não disponível';
+            document.getElementById('summaryRole').textContent = usuario.profissao || 'Profissão não disponível';
+            document.getElementById('summaryCpf').textContent = usuario.cpf || 'CPF não disponível';
+            document.getElementById('summaryEmail').textContent = usuario.email || 'Email não disponível';
+            document.getElementById('summaryResumo').textContent = usuario.resumoProfissional || 'Resumo não disponível.';
+            const foto = document.getElementById('summaryFoto');
+            if (usuario.foto) {
+                foto.src = usuario.foto;
+            } else {
+                foto.src = 'https://via.placeholder.com/112/121212/ffffff?text=?';
+            }
+            const expContainer = document.getElementById('summaryExperiencias');
+            expContainer.innerHTML = '';
+            if (Array.isArray(usuario.experiencias) && usuario.experiencias.length) {
+                usuario.experiencias.forEach(text => {
+                    const item = document.createElement('div');
+                    item.className = 'summary-list-item';
+                    item.innerHTML = text;
+                    expContainer.appendChild(item);
+                });
+            } else {
+                expContainer.innerHTML = '<p>Experiência não disponível.</p>';
+            }
+            const eduContainer = document.getElementById('summaryEducacao');
+            eduContainer.innerHTML = '';
+            if (Array.isArray(usuario.educacao) && usuario.educacao.length) {
+                usuario.educacao.forEach(text => {
+                    const item = document.createElement('div');
+                    item.className = 'summary-list-item';
+                    item.textContent = text;
+                    eduContainer.appendChild(item);
+                });
+            } else {
+                eduContainer.innerHTML = '<p>Educação não disponível.</p>';
+            }
+        }
+
+        carregarResumo();
+    </script>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                let estilo = document.getElementById('tema-claro-style');
+                if (!estilo) {
+                    estilo = document.createElement('style');
+                    estilo.id = 'tema-claro-style';
+                    document.head.appendChild(estilo);
+                }
+                estilo.textContent = `
+                    body { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; color: #000000 !important; }
+                    .container { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 48%, #eff6ff 100%) !important; border-color: #90caf9 !important; }
+                    h2, h3 { color: #000000 !important; }
+                    .section { background: rgba(255, 255, 255, 0.96) !important; border-color: #90caf9 !important; }
+                    .editable { background: #ffffff !important; color: #000000 !important; border-color: #90caf9 !important; }
+                    .info-label { color: #000000 !important; }
+                    .profile-pic { border-color: #000000 !important; background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(227, 242, 253, 0.4)) !important; color: #000000 !important; }
+                    .icon-btn { background: rgba(255, 255, 255, 0.98) !important; border-color: #90caf9 !important; }
+                    .icon-btn:hover { background: rgba(100, 181, 246, 0.3) !important; box-shadow: 0 0 20px rgba(33, 150, 243, 0.4) !important; }
+                    .top-icons-box { background: rgba(66, 165, 245, 0.15) !important; box-shadow: 0 0 25px rgba(33, 150, 243, 0.25) !important; border: 1px solid #90caf9 !important; }
+                `;
+            } else {
+                const estilo = document.getElementById('tema-claro-style');
+                if (estilo) estilo.remove();
+            }
+        }
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema') || 'escuro';
+            aplicarTema(temaSalvo);
+        };
+    </script>
+
+</body>
+</html>

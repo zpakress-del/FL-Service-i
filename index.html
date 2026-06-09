@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles/login.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            color: #fff;
+            margin: 0;
+            padding: 80px 0 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .login-box {
+            position: relative;
+            background: linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            border-radius: 24px;
+            box-shadow: 0 0 28px linear-gradient(180deg, #090909 0%, #141414 48%, #141414 100%);
+            padding: 50px 36px 32px;
+            width: min(500px, 90%);
+            min-width: 340px;
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 24px;
+            margin-top: 0;
+        }
+        h1 {
+            color: #b00000;
+            margin: 0;
+            font-size: 3rem;
+            text-align: center;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
+        }
+        label {
+            color: #ccc;
+            font-size: 1.5rem;
+            margin-bottom: -40px;
+            text-align: left;
+            width: 100%;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 20px 22px;
+            border: none;
+            border-radius: 16px;
+            background: #121212;
+            color: #fff;
+            font-size: 1.25rem;
+            outline: none;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: #b00000;
+            color: #fff;
+            border: none;
+            border-radius: 28px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 16px rgba(176, 0, 0, 0.35);
+        }
+        button[type="submit"]:hover {
+            background: #d84747;
+            transform: translateY(-1px);
+        }
+        .register-btn {
+            display: block;
+            width: 100%;
+            margin-top: 0;
+            padding: 16px 0;
+            background: #1f1f1f;
+            color: #b00000;
+            border: 1px solid #b00000;
+            border-radius: 28px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .register-btn:hover {
+            background: #b00000;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo-container img {
+            max-width: 420px;
+            height: auto;
+        }
+        .login-box {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button class="top-left-btn" onclick="goBack()"></button>
+    <header class="navbar-header">
+        <!-- Espaço para logo aqui -->
+    </header>
+
+    <div class="login-box">
+        <div class="flservices-logo">
+  <div class="flservices-logo__mark">
+    <span class="flservices-logo__text">FLSERVICES</span>
+    <div class="flservices-logo__bar"></div>
+  </div>
+  <span class="flservices-logo__sub">Soluções Profissionais</span>
+</div>
+        <h1>Login</h1>
+        <form action="pages/curriculo.html" method="get">
+            <label for="usuario">Email</label><br>
+            <input type="text" id="usuario" name="usuario" required placeholder="Digite seu email cadastrado..."><br>
+            <label for="senha">Senha</label><br>
+            <input type="password" id="senha" name="senha" required placeholder="Digite sua senha..."><br>
+            <button type="submit">Entrar</button>
+        </form>
+        <a href="pages/cadastro.html" class="register-btn">Cadastrar</a>
+        
+    </div>
+    <script>
+        function aplicarTema(tema) {
+            if (tema === 'claro') {
+                let estilo = document.getElementById('tema-claro-style');
+                if (!estilo) {
+                    estilo = document.createElement('style');
+                    estilo.id = 'tema-claro-style';
+                    document.head.appendChild(estilo);
+                }
+                estilo.textContent = `
+                    body { background: linear-gradient(180deg, #ffffff 0%, #f0f8fb 48%, #f0f8fb 100%) !important; color: #1565c0 !important; }
+                    .login-box { background: linear-gradient(180deg, #ffffff 0%, #f0f8fb 48%, #f0f8fb 100%) !important; border-color: #b3e5fc !important; }
+                    h1 { color: #2196f3 !important; }
+                    label { color: #1976d2 !important; }
+                    input[type="text"], input[type="password"] { background: #ffffff !important; color: #1565c0 !important; border-color: #90caf9 !important; }
+                    button[type="submit"] { background: #2196f3 !important; color: #ffffff !important; border-color: #2196f3 !important; }
+                    button[type="submit"]:hover { background: #1976d2 !important; }
+                    .register-btn { background: #e8f4f8 !important; color: #2196f3 !important; border-color: #2196f3 !important; }
+                    .register-btn:hover { background: #2196f3 !important; color: #ffffff !important; }
+                `;
+            } else {
+                const estilo = document.getElementById('tema-claro-style');
+                if (estilo) estilo.remove();
+            }
+        }
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema') || 'escuro';
+            aplicarTema(temaSalvo);
+        };
+    </script>
+</body>
+</html>
